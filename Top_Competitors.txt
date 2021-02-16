@@ -1,0 +1,39 @@
+Coding test problem
+
+what's required = hacker_id,name
+
+condition1: who achieved full scores in more than one challenge
+condition2: Order by challenges
+condition3: hacker_id ascending if same number of challenges
+
+Hackers - hacker_id,name
+
+Challenges - challenge_id, hacker_id,difficulty_level
+
+Difficulty - difficult_level,score
+
+Submissions - submission_id,hacker_id,challenge_id,score
+
+
+
+
+
+select 
+    h.hacker_id,
+    h.name
+    --s.score,
+    --d.score as level_score,
+    --s.challenge_id,
+    --c.difficulty_level,
+    --count(s.challenge_id)
+from Hackers h
+left join Submissions s on s.hacker_id = h.hacker_id
+left join Challenges c on c.challenge_id = s.challenge_id
+left join Difficulty d on d.difficulty_level = c.difficulty_level
+where s.score = d.score
+group by h.hacker_id,h.name
+having count(s.challenge_id) > 1
+order by count(s.challenge_id) desc,h.hacker_id asc
+
+Concepts required :- Understanding on how multiple joins work and their order
+                     of execution
