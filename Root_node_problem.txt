@@ -1,0 +1,26 @@
+Given:
+
+N is the node of the tree
+P is the parent of the node N
+
+What's asked?
+
+We need to find the node type of the binary tree (Root i.e the start of the tree)/(inner i.e the next split/splits after root)/(leaf/leafs i.e. the end where there is no further splits)
+In short we need to find
+root or inner or leaf
+
+Conditions:
+
+condition1: Result shoud be ordered by the value of the node descending
+
+
+select N,
+case
+    when N NOT IN (select distinct(P) from BST where P is not null) then 'Leaf'
+    when N IN (select N from BST where P is null) then 'Root'
+    else 'Inner' end as types
+from BST
+order by N
+
+#Things to observe
+subquery with in conditions and case when

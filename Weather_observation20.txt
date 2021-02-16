@@ -1,0 +1,29 @@
+Given
+
+id,city,latitude,logitude
+
+what's asked?
+Median of the latitude
+
+conditions:
+Round the answer ot 4 deicmal places
+
+
+select ((select max(LAT_N)
+from (select top 50 percent LAT_N from STATION
+     order by LAT_N asc) as top_half)
++
+(select min(LAT_N)
+from (select top 50 percent LAT_N from STATION
+     order by LAT_N desc) as bottom_half))/2 as median
+	 
+or the easy way with built in percentile function
+
+select distinct
+  cast(
+     round(
+       PERCENTILE_DISC (.5) WITHIN GROUP (order by lat_n) OVER()
+     ,4) 
+   as decimal(16,4))
+from station
+

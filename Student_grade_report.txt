@@ -1,0 +1,23 @@
+What's give: Two tables
+Students and Grades
+
+Id,Name,Marks
+Grade,Min,Max
+
+whats required = Name,Grade and Marks
+
+condition1 - Doesn't want name of the students with grade lower than 8
+condition2 - Report should be ordered by grade descending
+condition3 - Grade(8-10): order by name
+condition4 - Students with grade 1-7 name as 'Null'
+condition5 - Students with grade 1-7: order by marks asc
+
+
+Concept learnt - Joins can be done on between condition as well
+			   - Order of execution in sql
+
+select case 
+when grade >= 8 then Name else 'NULL' end as Name,
+Marks,grade from Students s
+join Grades g on s.marks between g.Min_Mark and g.Max_Mark
+order by grade desc, name asc, marks asc
