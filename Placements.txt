@@ -1,0 +1,19 @@
+Given data:
+
+Students - ID,Name
+
+Friends - ID,Friend_ID
+
+Packages - ID,Salary
+
+What's asked: Name of the persons who's best friends got better salary than them
+
+condition1: Names Ordered by best friends salaries
+
+
+select scd.name from (select ss.ID,ss.Name,f.Friend_ID,p.Salary,j.Salary as friend_sal from Students ss
+left join Friends f on f.ID = ss.ID
+left join Packages p on p.ID = ss.ID
+left join Packages j on j.ID = f.Friend_ID) scd
+where scd.friend_sal > scd.Salary
+order by friend_sal
