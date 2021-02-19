@@ -1,0 +1,41 @@
+Given data:
+Hackers - hacker_id,name
+
+Challenges - challenge_id, hacker_id,difficulty_level
+
+Difficulty - difficult_level,score
+
+Submissions - submission_id,hacker_id,challenge_id,score
+
+What's asked:
+hacker_id,total_score
+
+condition1: total_score = sum of maximum scores
+condition2: Order by total_score desc
+condition3: Order by hacker_id asc
+condition4: exclude total_score = 0
+
+note: hackers can make multiple submissions in a single challenge
+
+--select hacker_id,challenge_id,count(*) from Submissions
+--group by hacker_id,challenge_id
+--order by hacker_id
+
+--select hacker_id,
+--      challenge_id,
+--      max(score) as max_scores from Submissions
+--where hacker_id = 486
+--group by challenge_id,hacker_id
+
+
+select scd.hacker_id,
+h.name,
+sum(max_scores)
+from (select hacker_id,
+      challenge_id,
+      max(score) as max_scores from Submissions
+group by challenge_id,hacker_id) scd
+join hackers h on scd.hacker_id = h.hacker_id
+group by scd.hacker_id,h.name
+having sum(max_scores) > 0
+order by sum(max_scores) desc,scd.hacker_id asc
