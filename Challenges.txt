@@ -1,0 +1,24 @@
+Given data:
+Hackers - hacker_id,name
+Challenges - challenge_id, hacker_id
+
+What's asked:
+hacker_id,name,total_challenges
+
+condition1: Order by total_challenges desc
+condition2: Secondary order by hacker_id
+condition3: if more than one student created same number of challenges
+            and count < max(total_challenges) ignore those records.
+
+
+SELECT c.hacker_id, h.name, COUNT(c.challenge_id) as counts 
+FROM Hackers AS h JOIN Challenges c ON h.hacker_id = c.hacker_id
+GROUP BY c.hacker_id, h.name
+having 
+COUNT(c.challenge_id) = (select top 1 count(c1.challenge_id) from Challenges c1
+                               group by c1.hacker_id order by count(c1.challenge_id) desc)
+or
+COUNT(c.challenge_id) not in (select count(c2.challenge_id) from Challenges c2
+                               group by c2.hacker_id
+                             having c2.hacker_id <> c.hacker_id)
+order by counts desc, c.hacker_id
